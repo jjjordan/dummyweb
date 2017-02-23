@@ -22,7 +22,7 @@ def catch_all(path):
     else:
         write("Request data:")
         write("\t" + repr(data))
-    return "OK"
+    return "OK\n"
 
 def printTable(tab, keyname, valuename, prefix=""):
     klen = max(len(keyname), max(len(x) for x in tab.keys()))
