@@ -22,6 +22,7 @@ def catch_all(path):
     else:
         write("Request data:")
         write("\t" + repr(data))
+    flush()
     return "OK\n"
 
 def printTable(tab, keyname, valuename, prefix=""):
@@ -38,6 +39,10 @@ def write(*lst, **kw):
     kwargs.update(kw)
     return print(*lst, **kwargs)
 
+def flush():
+    sys.stderr.flush()
+
 if __name__ == '__main__':
     write("Starting server on 0.0.0.0:5000")
+    flush()
     app.run(host='0.0.0.0')
