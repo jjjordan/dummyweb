@@ -4,16 +4,18 @@ import logging
 import sys
 from dateutil.tz import tzlocal
 from flask import Flask, request
+from werkzeug.routing import Map, Rule
 
 # We'll do our own logging, thanks
 log = logging.getLogger('werkzeug')
 log.setLevel(logging.ERROR)
 
 app = Flask(__name__)
+app.url_map.add(Rule('/', endpoint='catch_all'))
+app.url_map.add(Rule('/<path:path>', endpoint='catch_all'))
 
-@app.route('/', defaults={'path': ''})
-@app.route('/<path:path>')
-def catch_all(path):
+@app.endpoint('catch_all')
+def catch_all(path="/"):
     write("[{:%Y-%m-%d %H:%M:%S %z}] {} {}".format(datetime.datetime.now(tzlocal()), request.method, request.url))
     printTable({k: repr(v) for k, v in request.headers.items()}, "Header", "Value", prefix="\t")
     data = request.get_data()
